@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Ordering System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #6200ea;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            overflow: hidden;
+            flex: 1 1 calc(33.333% - 2rem);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+        }
+        .product-card .details {
+            padding: 1rem;
+            text-align: center;
+        }
+        .product-card h3 {
+            font-size: 1.25rem;
+            margin: 0.5rem 0;
+        }
+        .product-card p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+        .product-card .price {
+            font-size: 1.2rem;
+            color: #000;
+            margin: 0.5rem 0;
+        }
+        .product-card button {
+            background: #6200ea;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .product-card button:hover {
+            background: #3700b3;
+        }
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        @media (max-width: 768px) {
+            .product-card {
+                flex: 1 1 calc(50% - 1rem);
+            }
+        }
+        @media (max-width: 480px) {
+            .product-card {
+                flex: 1 1 100%;
+            }
+        }
+        .cart {
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .cart h2 {
+            margin-bottom: 1rem;
+        }
+        .cart ul {
+            list-style: none;
+            padding: 0;
+        }
+        .cart ul li {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart ul li span {
+            font-size: 1rem;
+        }
+        .cart-total {
+            text-align: right;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+        .checkout {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+        .checkout button {
+            background: #6200ea;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .checkout button:hover {
+            background: #3700b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Online buyurtma bering</h1>
+    </header>
+    <div class="container">
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150" alt="Product 1">
+                <div class="details">
+                    <h3>Mahsulot nomer 10020001</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, expedita.</p>
+                    <div class="price">$20</div>
+                    <button onclick="addToCart('Product 1', 20)">Qo'shish</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150" alt="Product 2">
+                <div class="details">
+                    <h3>Mahsulot nomer 10020002</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, magni!</p>
+                    <div class="price">$35</div>
+                    <button onclick="addToCart('Product 2', 35)">Qo'shish</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150" alt="Product 3">
+                <div class="details">
+                    <h3>Mahsulot nomer 10020003</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, quidem.</p>
+                    <div class="price">$50</div>
+                    <button onclick="addToCart('Product 3', 50)">Qo'shish</button>
+                </div>
+            </div>
+        </div>
+        <div class="cart">
+            <h2>Savatcha</h2>
+            <ul id="cart-items"></ul>
+            <div class="cart-total">Jami: $<span id="cart-total">0</span></div>
+            <div class="checkout">
+                <button onclick="goToCheckout()">To'lov</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const cart = [];
+
+        function addToCart(productName, productPrice) {
+            cart.push({ name: productName, price: productPrice });
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            cartItems.innerHTML = '';
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${item.name} - $${item.price} <button onclick="removeFromCart(${index})">O'chirish</button>`;
+                cartItems.appendChild(li);
+                total += item.price;
+            });
+
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function goToCheckout() {
+            if (cart.length === 0) {
+                alert('Savat bo\'sh');
+            } else {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                window.location.href = 'checkout.html';
+            }
+        }
+    </script>
+</body>
+</html>
