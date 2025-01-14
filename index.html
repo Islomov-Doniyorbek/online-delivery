@@ -21,8 +21,10 @@
             max-width: 1200px;
             margin: 2rem auto;
             padding: 1rem;
+            position: relative;
         }
         .product-card {
+            position: relative;
             border: 1px solid #ddd;
             border-radius: 8px;
             background: #fff;
@@ -33,10 +35,22 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            text-align: center;
+        }
+        .product-card .img {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .product-card img {
-            width: 100%;
-            height: auto;
+            text-align: center;
+            position: relative;
+            /* width: 300px; */
+            zoom: 0.7;
+            height: 300px;
         }
         .product-card .details {
             padding: 1rem;
@@ -137,80 +151,17 @@
     </header>
     <div class="container">
         <div class="product-grid">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 1">
-                <div class="details">
-                    <h3>Mahsulot nomer 10020001</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, expedita.</p>
-                    <div class="price">$20</div>
-                    <button onclick="addToCart('Product 1', 20)">Qo'shish</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 2">
-                <div class="details">
-                    <h3>Mahsulot nomer 10020002</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, magni!</p>
-                    <div class="price">$35</div>
-                    <button onclick="addToCart('Product 2', 35)">Qo'shish</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="https://via.placeholder.com/150" alt="Product 3">
-                <div class="details">
-                    <h3>Mahsulot nomer 10020003</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, quidem.</p>
-                    <div class="price">$50</div>
-                    <button onclick="addToCart('Product 3', 50)">Qo'shish</button>
-                </div>
-            </div>
+
         </div>
         <div class="cart">
             <h2>Savatcha</h2>
             <ul id="cart-items"></ul>
-            <div class="cart-total">Jami: $<span id="cart-total">0</span></div>
+            <div class="cart-total">Jami:<span id="cart-total">0</span> so'm</div>
             <div class="checkout">
                 <button onclick="goToCheckout()">To'lov</button>
             </div>
         </div>
     </div>
-    <script>
-        const cart = [];
-
-        function addToCart(productName, productPrice) {
-            cart.push({ name: productName, price: productPrice });
-            updateCart();
-        }
-
-        function updateCart() {
-            const cartItems = document.getElementById('cart-items');
-            const cartTotal = document.getElementById('cart-total');
-            cartItems.innerHTML = '';
-
-            let total = 0;
-            cart.forEach((item, index) => {
-                const li = document.createElement('li');
-                li.innerHTML = `${item.name} - $${item.price} <button onclick="removeFromCart(${index})">O'chirish</button>`;
-                cartItems.appendChild(li);
-                total += item.price;
-            });
-
-            cartTotal.textContent = total.toFixed(2);
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
-
-        function goToCheckout() {
-            if (cart.length === 0) {
-                alert('Savat bo\'sh');
-            } else {
-                localStorage.setItem('cart', JSON.stringify(cart));
-                window.location.href = 'checkout.html';
-            }
-        }
-    </script>
+    <script src="./script.js"></script>
 </body>
 </html>
